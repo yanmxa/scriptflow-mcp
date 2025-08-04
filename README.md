@@ -1,158 +1,77 @@
 # ScriptFlow MCP Server
 
-An MCP (Model Context Protocol) server for managing and executing scripts as automated workflows. This provides a shell-like way to manage script automation in agentic AI systems.
+ScriptFlow is a script workflow management system built on the Model Context Protocol (MCP). It transforms complex, repetitive AI interactions into persistent, executable scripts that can be managed, version-controlled, and reused across sessions.
+
+## Why ScriptFlow?
+
+1. **Transform Workflows into Scripts**: Convert successful AI interactions into reusable, executable scripts
+2. **Save Time & Tokens**: Execute complex tasks instantly instead of repeating long conversations
+3. **Guaranteed Consistency**: Scripts run the same way every time, eliminating AI randomness
+4. **Powerful Management**: Search, organize, edit, and version your automation library
+5. **Team Collaboration**: Share proven workflows across your organization
 
 ## Features
 
-- **Script Add**: Add new scripts to the repository with metadata
-- **Script Edit**: Update existing scripts (content, description, language, tags, parameters)
-- **Script Remove**: Delete scripts from the repository
-- **Script Get**: View detailed script information with optional content
-- **Script List**: Search and discover available scripts with filtering
-- **Script Run**: Execute scripts with parameters
+- **Add/Edit/Remove** scripts with metadata
+- **List/Search** scripts by name, description, or tags  
+- **Execute** scripts with arguments
+- **Multi-language** support (Bash, Python, Node.js, TypeScript)
 
-## Complete Script Lifecycle
+## Setup
 
-✅ **ADD** → **GET** → **EDIT** → **REMOVE** → **RUN**
+Add to your MCP client config (e.g., Claude Desktop `claude_desktop_config.json`):
 
-## Installation
+```json
+{
+  "mcpServers": {
+    "scriptflow": {
+      "command": "npx",
+      "args": ["scriptflow-mcp"],
+      "env": {
+        "SCRIPTFLOW_SCRIPTS_DIR": "/your/custom/path"
+      }
+    }
+  }
+}
+```
+
+**Environment Variables:**
+- `SCRIPTFLOW_SCRIPTS_DIR`: Scripts directory (default: `/tmp/scriptflow-mcp/scripts`)
+- `SCRIPTFLOW_TIMEOUT`: Execution timeout in ms (default: `30000`)
+
+## Available Tools
+
+- `script_add` - Add new script (name, description, content, language, tags)
+- `script_edit` - Update existing script  
+- `script_get` - View script details
+- `script_list` - Search/filter scripts
+- `script_run` - Execute script with arguments
+- `script_rm` - Remove script
+
+## Quick Example
+
+```json
+// Add script
+{"name": "hello", "description": "Hello script", "content": "echo 'Hello!'"}
+
+// Run script  
+{"name": "hello", "args": ["World"]}
+
+// List scripts
+{"search": "hello"}
+```
+
+## Storage
+
+Scripts stored as `{name}.{ext}` + `{name}.json` metadata files.
+Supports: Bash (.sh), Python (.py), JavaScript (.js), TypeScript (.ts)
+
+## Testing
 
 ```bash
-npm install
-npm run build
-```
+# Run tests
+npm test
 
-## Usage
-
-### Tools Available
-
-#### 1. `script_add`
-Add a new script to the repository.
-
-**Parameters:**
-- `name` (required): Script name without extension
-- `description` (required): What the script does
-- `content` (required): Script content/code
-- `language` (optional): Programming language (bash, python, node, etc.) - defaults to bash
-- `tags` (optional): Array of tags for categorization
-- `parameters` (optional): Array of parameter descriptions
-
-#### 2. `script_edit`
-Edit an existing script.
-
-**Parameters:**
-- `name` (required): Name of the script to edit
-- `description` (optional): Updated description
-- `content` (optional): Updated script content/code
-- `language` (optional): Updated programming language
-- `tags` (optional): Updated tags for categorization
-- `parameters` (optional): Updated parameter descriptions
-
-#### 3. `script_rm`
-Remove a script from the repository.
-
-**Parameters:**
-- `name` (required): Name of the script to remove
-
-#### 4. `script_get`
-Get detailed information about a specific script.
-
-**Parameters:**
-- `name` (required): Name of the script to get details for
-- `include_content` (optional): Whether to include script content - defaults to false
-
-#### 5. `script_list`
-List and discover available scripts.
-
-**Parameters:**
-- `search` (optional): Search term to filter scripts
-- `tag` (optional): Tag to filter scripts
-
-#### 6. `script_run`
-Execute a script by name.
-
-**Parameters:**
-- `name` (required): Name of the script to run
-- `args` (optional): Array of arguments to pass to the script
-
-## Examples
-
-### Complete Script Lifecycle Example
-
-#### 1. Adding a Script
-```json
-{
-  "name": "hello_world",
-  "description": "Prints hello world message",
-  "content": "#!/bin/bash\\necho \\"Hello, World!\\"",
-  "language": "bash",
-  "tags": ["demo", "greeting"],
-  "parameters": ["message"]
-}
-```
-
-#### 2. Getting Script Details
-```json
-{
-  "name": "hello_world",
-  "include_content": true
-}
-```
-
-#### 3. Editing a Script
-```json
-{
-  "name": "hello_world",
-  "description": "Enhanced greeting script with customizable message",
-  "content": "#!/bin/bash\\necho \\"Hello, ${1:-World}!\\"",
-  "tags": ["demo", "greeting", "customizable"]
-}
-```
-
-#### 4. Listing Scripts
-```json
-{
-  "search": "hello"
-}
-```
-```json
-{
-  "tag": "greeting"
-}
-```
-
-#### 5. Running a Script
-```json
-{
-  "name": "hello_world",
-  "args": ["Claude"]
-}
-```
-
-#### 6. Removing a Script
-```json
-{
-  "name": "hello_world"
-}
-```
-
-## Configuration
-
-Scripts are stored in the `scripts/` directory with:
-- Script files: `{name}.{extension}`
-- Metadata files: `{name}.json`
-
-## Supported Languages
-
-- Bash/Shell (.sh)
-- Python (.py)
-- Node.js/JavaScript (.js)
-- TypeScript (.ts)
-
-## Development
-
-```bash
-npm run dev    # Watch mode
-npm run build  # Build
-npm start      # Run built server
+# Test with MCP Inspector
+npx @modelcontextprotocol/inspector npx scriptflow-mcp
 ```

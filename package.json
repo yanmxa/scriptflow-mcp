@@ -1,0 +1,47 @@
+{
+  "name": "scriptflow-mcp",
+  "version": "1.0.1",
+  "description": "Script workflow management via MCP. Converts AI workflows to persistent scripts, reducing tokens & delays while minimizing hallucination risks.",
+  "main": "dist/index.js",
+  "bin": {
+    "scriptflow-mcp": "dist/index.js"
+  },
+  "type": "module",
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/yourusername/scriptflow-mcp.git"
+  },
+  "homepage": "https://github.com/yourusername/scriptflow-mcp#readme",
+  "bugs": {
+    "url": "https://github.com/yourusername/scriptflow-mcp/issues"
+  },
+  "scripts": {
+    "build": "tsc",
+    "start": "node dist/index.js",
+    "dev": "tsc --watch",
+    "clean": "rm -rf dist",
+    "test": "npm run build && node --test dist/tests/basic.test.js",
+    "inspector": "npm run build && npx @modelcontextprotocol/inspector node dist/index.js",
+    "prepublishOnly": "npm run clean && npm run build && npm test"
+  },
+  "keywords": ["mcp", "script", "workflow", "automation", "model-context-protocol", "ai", "token-optimization", "script-management"],
+  "author": "myan@redhat.com",
+  "files": [
+    "dist/**/*",
+    "README.md",
+    "LICENSE",
+    ".env.example"
+  ],
+  "license": "MIT",
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "^1.0.0"
+  },
+  "devDependencies": {
+    "@types/node": "^20.0.0",
+    "typescript": "^5.0.0",
+    "@modelcontextprotocol/inspector": "^1.0.0"
+  }
+}
