@@ -19,10 +19,11 @@ export function buildExecutionCommand(scriptPath: string, language: string, args
   }
 }
 
-export function executeScript(command: string, scriptsDir: string, timeout: number): string {
+export function executeScript(command: string, scriptsDir: string, timeout: number, env?: Record<string, string>): string {
   return execSync(command, {
     encoding: 'utf-8',
     timeout,
-    cwd: scriptsDir
+    cwd: scriptsDir,
+    env: env ? { ...process.env, ...env } : process.env
   });
 }
