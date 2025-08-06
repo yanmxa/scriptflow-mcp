@@ -1,5 +1,8 @@
 # ScriptFlow MCP Server
 
+[![npm version](https://badge.fury.io/js/scriptflow-mcp.svg)](https://www.npmjs.com/package/scriptflow-mcp)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+
 ScriptFlow is a script workflow management system built on the Model Context Protocol (MCP). It transforms complex, repetitive AI interactions into persistent, executable scripts that can be managed, version-controlled, and reused across sessions.
 
 ## Why ScriptFlow?
